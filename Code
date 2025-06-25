@@ -1,0 +1,47 @@
+import socket
+
+def checking_for_indivdual_port(host, ports):
+    response = {}
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    response = sock.connect_ex((host, ports))    
+    sock.close
+    if response == 0:
+        print(f"Port {ports} is OPEN!")
+    else:
+        print(f"Port {ports} is CLOSED!")
+
+def checking_for_multiple_ports(host, ports):
+    response = {}
+    for port in ports:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        response = sock.connect_ex((host, port))
+        sock.close
+        if response == 0:
+            print(f"Port {port} is OPEN!")
+        else:
+            print(f"Port {port} is CLOSED!")
+
+print("***************************************************")
+print("Welcome to simple port scanner version 0.1!")
+print("Version made for linux only.")
+print("All right registered.")
+print("Made by vox.off")
+print("***************************************************")
+
+porty = input("Enter ports to be scaned: ")
+host = input("Enter target host ip or url: ")
+
+print("**************************RESULT***************************")
+
+ 
+if "," in porty:
+    try: 
+        start, end = [int(p.strip()) for p in porty.split(",")]
+        lista1 = list(range(start, end + 1))
+        checking_for_multiple_ports(host, lista1)
+    except ValueError:
+        print("error!")
+        exit
+else:
+    porty2 = int(porty)
+    checking_for_indivdual_port(host, porty2)
